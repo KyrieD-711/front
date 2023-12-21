@@ -2,7 +2,6 @@
   "name": "oyshop",
   "version": "1.0.0",
   "description": "A Vue.js myshop project",
-  "author": "nopapername <1019825864@qq.com>",
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
@@ -17,6 +16,7 @@
     "mint-ui": "^2.2.13",
     "mockjs": "^1.0.1-beta3",
     "swiper": "^4.5.0",
+    "vant": "^2.13.2",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
     "vuex": "^3.1.0"
@@ -28,6 +28,7 @@
     "babel-helper-vue-jsx-merge-props": "^2.0.3",
     "babel-loader": "^7.1.1",
     "babel-plugin-component": "^1.1.1",
+    "babel-plugin-import": "^1.13.8",
     "babel-plugin-syntax-jsx": "^6.18.0",
     "babel-plugin-transform-runtime": "^6.22.0",
     "babel-plugin-transform-vue-jsx": "^3.5.0",

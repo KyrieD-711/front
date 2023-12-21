@@ -2,7 +2,7 @@
   <div class="msite_shop_list">
     <div class="shop_header">
       <i class="iconfont iconxuanxiang" style="color: #999"></i>
-      <span class="shop_header_title">附近商家</span>
+      <span class="shop_header_title">食堂商家</span>
     </div>
     <div class="shop_container">
       <ul class="shop_list" v-if="shopList.length">
@@ -25,7 +25,7 @@
                   <div class="order_section">月售{{ shop.recent_order_num }}单</div>
                 </section>
                 <section class="shop_rating_order_right">
-                  <span class="delivery_style delivery_right">外卖专送</span>
+                  <span class="delivery_style delivery_right">商家自送</span>
                 </section>
               </section>
               <section class="shop_distance">

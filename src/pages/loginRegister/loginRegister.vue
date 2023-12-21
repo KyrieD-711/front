@@ -40,9 +40,9 @@
             </div>
           </section>
           <section class="verification_num">
-            <input type="tel" placeholder="验证码" class="receive_verification" maxlength="4" v-model="captcha_code">
-            <img :src="captchas.code" class="verification_img" @click="getCaptchas">
-            <div class="some_info">温馨提示：未注册过帐号的手机号/邮箱/用户名，登录时将自动注册，且代表已同意<span>《用户服务协议》</span></div>
+            <!-- <input type="tel" placeholder="验证码" class="receive_verification" maxlength="4" v-model="captcha_code"> -->
+            <!-- <img :src="captchas.code" class="verification_img" @click="getCaptchas"> -->
+            <!-- <div class="some_info">温馨提示：未注册过帐号的手机号/邮箱/用户名，登录时将自动注册，且代表已同意<span>《用户服务协议》</span></div> -->
           </section>
           <section class="login_submit">
             <button class="login_btn">登录</button>
@@ -89,19 +89,19 @@ export default {
     // 异步请求图片验证码
     ...mapActions(['getCaptchas']),
     // 异步获取短信验证码及等待时间
-    getCode () {
-      if (!this.computeTime) {
-        this.computedFlag = true
-        this.computeTime = 30
-        const computedNum = setInterval(() => { // 设置已发送验证码的等待时间
-          this.computeTime -= 1
-          if (this.computeTime === 0) {
-            clearInterval(computedNum)
-            this.computedFlag = false
-          }
-        }, 1000)
-      }
-    },
+    // getCode () {
+    //   if (!this.computeTime) {
+    //     this.computedFlag = true
+    //     this.computeTime = 30
+    //     const computedNum = setInterval(() => { // 设置已发送验证码的等待时间
+    //       this.computeTime -= 1
+    //       if (this.computeTime === 0) {
+    //         clearInterval(computedNum)
+    //         this.computedFlag = false
+    //       }
+    //     }, 1000)
+    //   }
+    // },
     // 是否显示密码
     ifShowpwd () {
       if (this.showPwd) {
@@ -115,12 +115,14 @@ export default {
       // 前台表单验证
       if (this.loginWay) {
         // 短信登录
-        const {rightPhone, code} = this
+        // const {rightPhone, code} = this
+        const {rightPhone} = this
         if (!rightPhone) {
           MessageBox('提示', '手机号输入不正确')
-        } else if (!/^\d{6}$/.test(code)) {
-          MessageBox('提示', '验证码输入不正确')
         }
+        // else if (!/^\d{6}$/.test(code)) {
+        //   MessageBox('提示', '验证码输入不正确')
+        // }
       } else {
         // eslint-disable-next-line
         const {username, password, captcha_code} = this
@@ -129,12 +131,13 @@ export default {
         } else if (!password) {
           MessageBox('提示', '密码输入不正确')
           // eslint-disable-next-line
-        } else if (!captcha_code) {
-          MessageBox('提示', '验证码输入不正确')
         }
-        const result = await reqPwdLogin({username, password, captcha_code})
-        if (result.status === 0) {
-          MessageBox('提示', result.message).then(action => {
+        // else if (!captcha_code) {
+        //   MessageBox('提示', '验证码输入不正确')
+        // }
+        const result = await reqPwdLogin({username, password})
+        if (result.code === 400) {
+          MessageBox('提示', result.errorMsg).then(action => {
             this.getCaptchas()
           })
         } else {

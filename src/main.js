@@ -7,8 +7,10 @@ import router from './router'
 import FastClick from 'fastclick'
 import store from './store'
 import { Button } from 'mint-ui'
+import { NoticeBar } from 'vant'
 import './mock/mockServer'
 
+Vue.use(NoticeBar)
 Vue.component(Button.name, Button)
 
 FastClick.attach(document.body)

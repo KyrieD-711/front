@@ -35,6 +35,7 @@ export default {
   // 异步获取城市位置
   async getCityPosition ({commit}) {
     const cityPosition = await reqCityPosition()
+    console.log(cityPosition)
     commit(RECEIVE_CITYPOSITION, {cityPosition})
   },
   // 异步获取城市详细信息

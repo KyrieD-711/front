@@ -11,6 +11,9 @@
     </topHeader>
     <div class="homeContent">
       <foodTypes></foodTypes>
+      <div>
+        <van-notice-bar background=#33c3451f scrollable text="食堂营业时间: 周一至周五: 7:30-21:00,周末: 8:00-20:00" />
+      </div>
       <shopList></shopList>
     </div>
   </div>
