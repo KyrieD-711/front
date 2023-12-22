@@ -36,8 +36,8 @@ export default {
   [RECEIVE_CAPTCHAS] (state, {captchas}) {
     state.captchas = captchas
   },
-  [RECEIVE_USERINFO] (state, {userInfo}) {
-    state.userInfo = userInfo
+  [RECEIVE_USERINFO] (state, userinfo) {
+    state.userInfo = userinfo
   },
   [RESET_USERINFO] (state) {
     state.userInfo = {}

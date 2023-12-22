@@ -45,7 +45,7 @@ export default new Router({
       component: shop,
       children: [
         {
-          path: '/shop/shopGoods',
+          path: '/shop/shopGoods/:id',
           name: 'shopGoods',
           component: shopGoods
         },

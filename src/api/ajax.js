@@ -3,6 +3,7 @@
   使用promise对象异步返回response.data数据
  */
 import axios from 'axios'
+import {getStorage} from "../utils/storage";
 export default function ajax (url, data = {}, type = 'get') {
   return new Promise(function (resolve, reject) {
     // 执行异步ajax请求
@@ -18,10 +19,18 @@ export default function ajax (url, data = {}, type = 'get') {
         url = url + '?' + dataStr
       }
       // 发送get请求
-      promise = axios.get(url)
+      promise = axios.get(url,{
+        headers:{
+          Authorization:getStorage('token')
+        }
+      })
     } else {
       // 发送post请求
-      promise = axios.post(url, data)
+      promise = axios.post(url, data,{
+        headers:{
+          Authorization:getStorage('token')
+        }
+      })
     }
     promise.then(response => {
       resolve(response.data)

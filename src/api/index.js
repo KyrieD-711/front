@@ -11,14 +11,16 @@ export const reqCityDetailedInfo = (geohash) => ajax(`${BASE_URL}/v2/pois/${geoh
 // 食品分类列表
 export const reqFoodTypes = () => ajax(BASE_URL + '/v2/index_entry')
 // 获取商铺列表
-export const reqShopList = () => ajax(BASE_URL + '/user/merchant')
+export const reqShopList = () => ajax(BASE_URL + '/user/merchant/list')
 // 获取登录的验证码图片
 export const reqCaptchas = () => ajax(BASE_URL + '/v1/captchas', {}, 'post')
 // 用户密码登录
 // eslint-disable-next-line
 export const reqPwdLogin = ({username, password}) => ajax(BASE_URL + '/user/user/login', {username, password}, 'post')
 // 获取用户信息
-export const reqUserInfoAuto = () => ajax(BASE_URL + '/user/user')
+export const reqUserInfoAuto = () => {
+  return ajax(BASE_URL + '/user/user/info',{},'get')
+}
 // 退出登录
 export const reqLoginOut = () => ajax(BASE_URL + '/v2/signout')
 // 获取商家信息
@@ -30,3 +32,6 @@ export const reqShopGoods = () => ajax('/goods')
 
 // 查询全部食品列表或搜索
 export const reqFoodList = () => ajax(BASE_URL + `/user/food`)
+
+export const get = (url,data={}) => ajax(BASE_URL + url,data)
+export const post = (url,data={}) => ajax(BASE_URL + url,data,'post')

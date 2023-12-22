@@ -58,7 +58,8 @@
 import topHeader from '../../components/topHeader/topHeader'
 import { MessageBox } from 'mint-ui'
 import { mapActions, mapState } from 'vuex'
-import {reqPwdLogin} from '../../api'
+import {reqPwdLogin, reqUserInfoAuto} from '../../api'
+import {setStorage} from "../../utils/storage";
 
 export default {
   name: 'loginRegister',
@@ -141,7 +142,8 @@ export default {
             this.getCaptchas()
           })
         } else {
-          this.$store.dispatch('getUserInfo', result)
+          setStorage('token','Bearer_'+result.data.token)
+          this.$store.dispatch('getUserInfoAuto')
           MessageBox('欢迎', '登陆成功').then(action => {
             this.$router.replace('/personal')
           })

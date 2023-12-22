@@ -2,8 +2,8 @@
   <div class="personal">
     <topHeader title="个人中心"></topHeader>
     <router-link class="personInfo" :to="userInfo.id? '/userInfo':'/loginRegister'">
-      <img src="./imgs/personalimg.jpg">
-      <span class="login_text">{{ userInfo.id? userInfo.username:'登录/注册' }}</span>
+      <img :src="userInfo.avatar">
+      <span class="login_text">{{ userInfo.id? userInfo.name:'登录/注册' }}</span>
       <span class="notbind"><i class="iconfont iconshouji" style="font-size: 0.2rem"></i>暂未绑定手机</span>
       <i class="iconfont iconjiantou-you personal_you"></i>
     </router-link>

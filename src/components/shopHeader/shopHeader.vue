@@ -12,11 +12,11 @@
           <span class="content-tag">
             <span class="mini-tag">品牌</span>
           </span>
-          <span class="content-name">{{info.name}}</span>
+          <span class="content-name">{{mD.name}}</span>
           <i class="content-icon"></i>
         </h2>
         <div class="shop-message">
-          <span class="shop-message-detail">{{info.score}}</span>
+          <span class="shop-message-detail">{{mD.rating}}</span>
           <span class="shop-message-detail">月售{{info.sellCount}}单</span>
           <span class="shop-message-detail">
             {{info.description}}
@@ -111,16 +111,21 @@
 
 <script>
 import {mapState} from 'vuex'
+import {get} from "../../api";
 export default {
   data () {
     return {
       supportClasses: ['activity-green', 'activity-red', 'activity-orange'],
       shopShow: false,
-      supportShow: false
+      supportShow: false,
+      mD:{}
     }
   },
   computed: {
     ...mapState(['info'])
+  },
+  mounted() {
+    this.getMerchant()
   },
   methods: {
     toggleShopShow () {
@@ -128,7 +133,11 @@ export default {
     },
     toggleSupportShow () {
       this.supportShow = !this.supportShow
-    }
+    },
+    async getMerchant(){
+      const res=await get(`/user/merchant/details/${this.$route.params.id}`)
+      this.mD=res.data
+    },
   }
 }
 </script>

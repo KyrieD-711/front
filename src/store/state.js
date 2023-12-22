@@ -1,6 +1,8 @@
 /*
   状态对象
   */
+import {getStorage} from "../utils/storage";
+
 export default {
   latitude: null, // 纬度
   longitude: null, // 经度
@@ -9,7 +11,7 @@ export default {
   foodTypes: [], // 食品分类数组
   shopList: [], // 商品列表数组
   captchas: {}, // 图片验证码对象
-  userInfo: {}, // 用户信息
+  userInfo: getStorage('userInfo')||{}, // 用户信息
   goods: [], // 商品列表
   ratings: [], // 商家评价列表
   info: {}, // 商家信息

@@ -8,14 +8,16 @@
 <script>
 import footerNav from './components/footerNav/footerNav'
 import {mapActions, mapState} from 'vuex'
+import {getStorage} from "./utils/storage";
 export default {
   name: 'App',
   components: {
     footerNav
   },
   mounted () {
-    this.getCityPosition()
-    this.getUserInfoAuto()
+    // this.getCityPosition()
+    // this.getUserInfoAuto()
+    console.log(getStorage('token'))
   },
   computed: {
     ...mapState(['cityPosition'])
@@ -26,8 +28,8 @@ export default {
   watch: {
     cityPosition (value) {
       this.$nextTick(() => {
-        this.getCityDetailedInfo()
-        this.getShopList()
+       /* this.getCityDetailedInfo()
+        this.getShopList()*/
       })
     }
   }

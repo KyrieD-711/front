@@ -30,6 +30,8 @@ import {
   reqShopGoods,
   reqShopInfo
 } from '../api'
+import {clearStorage, setStorage} from "../utils/storage";
+import router from "../router";
 
 export default {
   // 异步获取城市位置
@@ -51,8 +53,8 @@ export default {
   },
   // 异步获取商家列表
   async getShopList ({commit, state}) {
-    const shopList = await reqShopList(state.latitude, state.longitude)
-    commit(RECEIVE_SHOPLIST, {shopList})
+    const shopList = await reqShopList()
+    commit(RECEIVE_SHOPLIST, {shopList:shopList.data})
   },
   // 异步获取验证码
   async getCaptchas ({commit}) {
@@ -65,13 +67,17 @@ export default {
   },
   async getUserInfoAuto ({commit}) {
     const userInfo = await reqUserInfoAuto()
-    commit(RECEIVE_USERINFO, {userInfo})
+    setStorage('userInfo',userInfo.data)
+    commit(RECEIVE_USERINFO, userInfo.data)
   },
   async loginOut ({commit}) {
-    const outResult = await reqLoginOut()
+    clearStorage()
+    router.replace('/loginRegister')
+    commit(RESET_USERINFO)
+    /*const outResult = await reqLoginOut()
     if (outResult.status === 1) {
       commit(RESET_USERINFO)
-    }
+    }*/
   },
   // 异步获取商家信息
   async getShopInfo ({commit}) {

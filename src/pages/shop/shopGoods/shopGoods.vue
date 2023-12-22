@@ -54,18 +54,19 @@ import ShopCart from '../../../components/ShopCart/ShopCart'
 import {mapState} from 'vuex'
 import BScroll from 'better-scroll'
 import food from '../../../components/food/food'
+import {get} from "../../../api/index";
 export default {
   data () {
     return {
       scrollY: 0,
       tops: [],
       screenHeight: window.screen.height,
-      food: {} // 需要显示的food
+      food: {}, // 需要显示的food
+      mD:{}
     }
   },
   computed: {
     ...mapState(['goods']),
-
     // 计算当前分类的下标
     currentIndex () {
       // 得到条件数据

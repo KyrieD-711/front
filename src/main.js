@@ -8,7 +8,7 @@ import FastClick from 'fastclick'
 import store from './store'
 import { Button } from 'mint-ui'
 import { NoticeBar } from 'vant'
-import './mock/mockServer'
+// import './mock/mockServer'
 
 Vue.use(NoticeBar)
 Vue.component(Button.name, Button)
