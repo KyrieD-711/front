@@ -49,7 +49,7 @@ export default {
   // 异步获取食品分类列表
   async getFoodTypes ({commit}) {
     const foodTypes = await reqFoodTypes()
-    commit(RECEIVE_FOODTYPES, {foodTypes})
+    commit(RECEIVE_FOODTYPES, {foodTypes:foodTypes.data})
   },
   // 异步获取商家列表
   async getShopList ({commit, state}) {

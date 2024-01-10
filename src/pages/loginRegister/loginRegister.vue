@@ -69,10 +69,10 @@ export default {
       computeTime: 0, // 验证码倒计时
       computedFlag: false, // 计数标志，当计数时切换到不可点击的按钮颜色
       phone: '', // 手机号
-      password: '', // 密码
+      password: '123456', // 密码
       showPwd: false, // 是否显示密码
       code: '', // 短信验证码
-      username: '', // 用户名
+      username: 'admin', // 用户名
       // eslint-disable-next-line
       captcha_code: '' // 图形验证码
     }

@@ -3,22 +3,13 @@
     <div class="swiper-container" v-if="foodTypes.length">
       <div class="swiper-wrapper">
         <div class="swiper-slide" v-for="(foodtypes, index) in foodTypesArr" :key="index">
-          <a href="javascript:" class="link_to_food" v-for="(foodType, index) in foodtypes" :key="index">
+          <span @click="enDetail(l.merchantId)" class="link_to_food" v-for="(l, index) in mergeTypes.slice(0,8)" :key="index">
             <div class="food_container">
-              <!-- <img :src="'https://fus
-              s10.elemecdn.com' + foodType.image_url"> -->
-              <img src="@/assets/imgs/hot_pot.png">
-              <!-- <img src='../static/imgs/milk_tea.png'> -->
-              <!-- <img src='../static/imgs/noodel.png'> -->
-              <!-- <img src='../static/imgs/shop.png'> -->
-              <!-- <img src='../static/imgs/hamburg.png'> -->
-              <!-- <img src='../static/imgs/buffet.png'> -->
-              <!-- <img src='../static/imgs/bread.png'> -->
-              <!-- <img src='../static/imgs/basket.png'> -->
+              <img :src="l.image"/>
             </div>
-            <span>{{ foodType.title }}</span>
-          </a>
-          
+            <span>{{ l.name }}</span>
+          </span>
+
         </div>
       </div>
       <!-- Add Pagination -->
@@ -37,6 +28,16 @@ export default {
   name: 'foodTypes',
   data () {
     return {
+      images:[
+        require('../../assets/imgs/hot_pot.png'),
+        require('../../assets/imgs/milk_tea.png'),
+        require('../../assets/imgs/shop.png'),
+        require('../../assets/imgs/noodle.png'),
+        require('../../assets/imgs/hamburg.png'),
+        require('../../assets/imgs/buffet.png'),
+        require('../../assets/imgs/bread.png'),
+        require('../../assets/imgs/basket.png'),
+      ]
     }
   },
   mounted () {
@@ -44,11 +45,17 @@ export default {
   },
   computed: {
     ...mapState(['foodTypes']),
+    mergeTypes(){
+      return this.foodTypes.map((it,index)=>({
+        ...it,image:this.images[index]
+      }))
+    },
     foodTypesArr () {
       const {foodTypes} = this
       const bigArr = []
       let smallArr = []
-      foodTypes.forEach(element => {
+      foodTypes.forEach((element,index) => {
+        element.image=this.images[index]
         if (smallArr.length < 8) {
           smallArr.push(element)
         }
@@ -61,7 +68,16 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getFoodTypes'])
+    ...mapActions(['getFoodTypes']),
+    enDetail(l){
+      /*this.$router.push({
+        path:'login',
+        query:{
+          id:l
+        }
+        // params:{}
+      })*/
+    }
   },
   watch: {
     foodTypes (value) {
