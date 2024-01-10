@@ -20,13 +20,13 @@
               <li class="food-item" v-for="(food, index) in good.foods"
                :key="index" @click="showFood(food)">
                 <div class="icon">
-                  <img :src="food.icon">
+                  <img :src="food.image">
                 </div>
                 <div class="content">
                   <h2 class="name">{{ food.name }}</h2>
                   <p class="desc">{{ food.description }}</p>
                   <div class="extra">
-                    <span class="count">月售{{ food.sellCount }}份</span>
+                    <span class="count">月售{{ food.monthSales }}份</span>
                     <span>好评率{{ food.rating }}%</span>
                   </div>
                   <div class="price">
@@ -54,7 +54,7 @@ import ShopCart from '../../../components/ShopCart/ShopCart'
 import {mapState} from 'vuex'
 import BScroll from 'better-scroll'
 import food from '../../../components/food/food'
-import {get} from "../../../api/index";
+import {get} from '../../../api/index'
 export default {
   data () {
     return {
@@ -62,7 +62,6 @@ export default {
       tops: [],
       screenHeight: window.screen.height,
       food: {}, // 需要显示的food
-      mD:{}
     }
   },
   computed: {
@@ -92,11 +91,13 @@ export default {
     window.onresize = () => {
       this.screenHeight = (window.screen.height / 80) + 'rem'
     }
-    this.$store.dispatch('getShopGoods', () => {
-      this.$nextTick(() => {
+    this.$store.dispatch('getShopGoods',this.$route.params.id)
+    this.$store.dispatch('getFoodTypes',this.$route.params.id)
+
+
+    this.$nextTick(() => {
         this._initScroll()
         this._initTops()
-      })
     })
   },
   methods: {

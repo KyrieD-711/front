@@ -5,10 +5,20 @@
         <div class="swiper-slide" v-for="(foodtypes, index) in foodTypesArr" :key="index">
           <a href="javascript:" class="link_to_food" v-for="(foodType, index) in foodtypes" :key="index">
             <div class="food_container">
-              <img :src="'https://fuss10.elemecdn.com' + foodType.image_url">
+              <!-- <img :src="'https://fus
+              s10.elemecdn.com' + foodType.image_url"> -->
+              <img src="@/assets/imgs/hot_pot.png">
+              <!-- <img src='../static/imgs/milk_tea.png'> -->
+              <!-- <img src='../static/imgs/noodel.png'> -->
+              <!-- <img src='../static/imgs/shop.png'> -->
+              <!-- <img src='../static/imgs/hamburg.png'> -->
+              <!-- <img src='../static/imgs/buffet.png'> -->
+              <!-- <img src='../static/imgs/bread.png'> -->
+              <!-- <img src='../static/imgs/basket.png'> -->
             </div>
             <span>{{ foodType.title }}</span>
           </a>
+          
         </div>
       </div>
       <!-- Add Pagination -->
@@ -23,6 +33,7 @@ import Swiper from 'swiper'
 import 'swiper/dist/css/swiper.min.css'
 import {mapActions, mapState} from 'vuex'
 export default {
+
   name: 'foodTypes',
   data () {
     return {

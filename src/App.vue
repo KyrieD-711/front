@@ -8,7 +8,7 @@
 <script>
 import footerNav from './components/footerNav/footerNav'
 import {mapActions, mapState} from 'vuex'
-import {getStorage} from "./utils/storage";
+import {getStorage} from './utils/storage'
 export default {
   name: 'App',
   components: {
@@ -28,8 +28,8 @@ export default {
   watch: {
     cityPosition (value) {
       this.$nextTick(() => {
-       /* this.getCityDetailedInfo()
-        this.getShopList()*/
+      // this.getCityDetailedInfo()
+      // this.getShopList()
       })
     }
   }

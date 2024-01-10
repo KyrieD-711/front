@@ -14,7 +14,7 @@
         })">
           <a>
             <div class="shop_left">
-<!--              <img class="shop_img" :src="'//elm.cangdu.org/img/' + shop.image_path">-->
+             <img class="shop_img" :src="shop.avatar">
             </div>
             <div class="shop_right">
               <section class="shop_detail_header">
@@ -27,7 +27,7 @@
                 <section class="shop_rating_order_left">
                   <star :size="24" :score="shop.rating"></star>
                   <div class="rating_section">{{ shop.rating }}</div>
-                  <div class="order_section">月售{{ 10}}单</div>
+                  <div class="order_section">月售{{ shop.monthSales }}单</div>
                 </section>
                 <section class="shop_rating_order_right">
                   <span class="delivery_style delivery_right">商家自送</span>
@@ -35,7 +35,7 @@
               </section>
               <section class="shop_distance">
                 <p class="shop_delivery_msg">
-                  <span>¥{{ 15 }}起送</span>
+                  <span>¥{{ shop.deliveryAmount }}起送</span>
                   <span class="segmentation">/</span>
                   <span>{{ shop.description }}</span>
                 </p>
@@ -54,20 +54,21 @@
 <script>
 import {mapState} from 'vuex'
 import star from '../stars/star'
-import {reqShopList} from "../../api";
+import {reqShopList} from '../../api'
 export default {
   name: 'shopList',
-  data(){
+  data () {
     return {
-      shopList:[{name:'111'}]
+      shopList: [{name: '111'}]
     }
   },
   computed: {
     // ...mapState(['shopList'])
   },
-  mounted() {
-    reqShopList().then(v=>{
-      this.shopList=v.data
+  mounted () {
+    reqShopList().then(v => {
+      console.log(v.data)
+      this.shopList = v.data
     })
   },
   components: {

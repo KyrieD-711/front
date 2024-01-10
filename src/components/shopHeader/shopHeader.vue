@@ -1,12 +1,12 @@
 <template>
   <div class="shop-header">
-    <nav class="shop-nav" :style="{backgroundImage: `url(${info.bgImg})`}">
+    <nav class="shop-nav" :style="{backgroundImage: `url(${mD.bgImg})`}">
       <a class="back" @click="$router.replace('/home')">
         <i class="iconfont iconjiantou-zuo"></i>
       </a>
     </nav>
     <div class="shop-content" @click="toggleShopShow">
-      <img class="content-image" :src="info.avatar">
+      <img class="content-image" :src="mD.avatar">
       <div class="header-content">
         <h2 class="content-title">
           <span class="content-tag">
@@ -17,27 +17,27 @@
         </h2>
         <div class="shop-message">
           <span class="shop-message-detail">{{mD.rating}}</span>
-          <span class="shop-message-detail">月售{{info.sellCount}}单</span>
+          <span class="shop-message-detail">月售{{mD.monthSales}}单</span>
           <span class="shop-message-detail">
-            {{info.description}}
-            <span>约{{info.deliveryTime}}分钟</span>
+            {{mD.description}}
+            <span>约{{ 30 }}分钟</span>
           </span>
-          <span class="shop-message-detail">距离{{info.distance}}</span>
+          <span class="shop-message-detail">距离{{ 800 }} 米</span>
         </div>
       </div>
     </div>
 
-    <div class="shop-header-discounts" v-if="info.supports" @click="toggleSupportShow">
+    <div class="shop-header-discounts" v-if="mD.supports" @click="toggleSupportShow">
       <div class="discounts-left">
-        <div class="activity" :class="supportClasses[info.supports[0].type]">
+        <div class="activity" :class="supportClasses[mD.supports[0].type]">
           <span class="content-tag">
-            <span class="mini-tag">{{info.supports[0].name}}</span>
+            <span class="mini-tag">{{mD.supports[0].name}}</span>
           </span>
-          <span class="activity-content ellipsis">{{info.supports[0].content}}</span>
+          <span class="activity-content ellipsis">{{mD.supports[0].content}}</span>
         </div>
       </div>
       <div class="discounts-right">
-        {{info.supports.length}}个优惠
+        {{mD.supports.length}}个优惠
       </div>
     </div>
 
@@ -48,27 +48,27 @@
           <span class="content-tag">
             <span class="mini-tag">品牌</span>
           </span>
-            <span class="content-name">{{info.name}}</span>
+            <span class="content-name">{{mD.name}}</span>
           </h2>
           <ul class="brief-modal-msg">
             <li>
-              <h3>{{info.score}}</h3>
+              <h3>{{mD.rating}}</h3>
               <p>评分</p>
             </li>
             <li>
-              <h3>{{info.sellCount}}单</h3>
+              <h3>{{mD.monthSales}}单</h3>
               <p>月售</p>
             </li>
             <li>
-              <h3>{{info.description}}</h3>
+              <h3>{{mD.description}}</h3>
               <p>约{{info.deliveryTime}}分钟</p>
             </li>
             <li>
-              <h3>{{info.deliveryPrice}}元</h3>
+              <h3>{{ 2 }}元</h3>
               <p>配送费用</p>
             </li>
             <li>
-              <h3>{{info.distance}}</h3>
+              <h3>{{ 777 }}</h3>
               <p>距离</p>
             </li>
           </ul>
@@ -76,7 +76,7 @@
             <span>公告</span>
           </h3>
           <div class="brief-modal-notice">
-            {{info.bulletin}}
+            {{mD.bulletin}}
           </div>
           <div class="mask-footer" @click="toggleShopShow">
             <span class="iconfont iconguanbi"></span>
@@ -118,7 +118,7 @@ export default {
       supportClasses: ['activity-green', 'activity-red', 'activity-orange'],
       shopShow: false,
       supportShow: false,
-      mD:{}
+      mD: {}
     }
   },
   computed: {
@@ -135,8 +135,8 @@ export default {
       this.supportShow = !this.supportShow
     },
     async getMerchant(){
-      const res=await get(`/user/merchant/details/${this.$route.params.id}`)
-      this.mD=res.data
+      const res = await get(`/user/merchant/details/${this.$route.params.id}`)
+      this.mD = res.data
     },
   }
 }

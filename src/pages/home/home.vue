@@ -20,10 +20,10 @@
 </template>
 
 <script>
-import topHeader from '../../components/topHeader/topHeader'
+import topHeader from '@/components/topHeader/topHeader'
 import shopList from '../../components/shopList/shopList'
 import foodTypes from '../../components/foodTypes/foodTypes'
-import {mapActions, mapState} from 'vuex'
+import {mapState} from 'vuex'
 export default {
   name: 'home',
   components: {
@@ -32,13 +32,13 @@ export default {
     foodTypes
   },
   computed: {
-    ...mapState(['cityDetailedInfo', 'userInfo']),
+    ...mapState(['cityDetailedInfo', 'userInfo'])
   },
   methods: {
     goTo (path) {
       this.$router.replace(path)
     }
-  },
+  }
 }
 </script>
 

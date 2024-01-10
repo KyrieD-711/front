@@ -74,14 +74,14 @@ export default {
     clearStorage()
     router.replace('/loginRegister')
     commit(RESET_USERINFO)
-    /*const outResult = await reqLoginOut()
-    if (outResult.status === 1) {
-      commit(RESET_USERINFO)
-    }*/
+    // const outResult = await reqLoginOut()
+    // if (outResult.status === 1) {
+    //   commit(RESET_USERINFO)
+    // }
   },
   // 异步获取商家信息
   async getShopInfo ({commit}) {
-    const result = await reqShopInfo()
+    const result = await reqShopInfo(id)
     if (result.code === 0) {
       const info = result.data
       commit(RECEIVE_INFO, {info})
@@ -98,13 +98,13 @@ export default {
     }
   },
   // 异步获取商家商品列表
-  async getShopGoods ({commit}, callback) {
-    const result = await reqShopGoods()
-    if (result.code === 0) {
+  async getShopGoods ({commit}, id) {
+    const result = await reqShopGoods(id)
+    if (result.code === 200) {
       const goods = result.data
       commit(RECEIVE_GOODS, {goods})
       // 数据更新了, 通知一下组件
-      callback && callback()
+      // callback && callback()
     }
   },
   // 同步更新food里的商品个数
