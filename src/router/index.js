@@ -9,6 +9,12 @@ import shop from '@/pages/shop/shop'
 import shopGoods from '@/pages/shop/shopGoods/shopGoods'
 import shopRating from '@/pages/shop/shopRating/shopRating'
 import shopInfo from '@/pages/shop/shopInfo/shopInfo'
+import address from '@/pages/address/address'
+import shopListByFoodType from '@/pages/shopListByFoodType/shopListByFoodType'
+import userInfo from '@/pages/userInfo/userInfo'
+import record from '@/pages/record/record'
+import myCoupon from '@/pages/coupon/myCoupon'
+import register from '@/pages/register/register'
 
 Vue.use(Router)
 
@@ -35,9 +41,39 @@ export default new Router({
       component: personal
     },
     {
+      path: '/userInfo',
+      name: 'userInfo',
+      component: userInfo
+    },
+    {
+      path: '/address',
+      name: 'address',
+      component: address
+    },
+    {
+      path: '/record',
+      name: 'record',
+      component: record
+    },
+    {
+      path: '/myCoupon',
+      name: 'myCoupon',
+      component: myCoupon
+    },
+    {
+      path: '/shopListByFoodType',
+      name: 'shopListByFoodType',
+      component: shopListByFoodType
+    },
+    {
       path: '/loginRegister',
       name: 'loginRegister',
       component: loginRegister
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: register
     },
     {
       path: '/shop',

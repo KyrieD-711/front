@@ -6,8 +6,8 @@
           <li class="menu-item" v-for="(good, index) in goods" :key="index"
            :class="{current: index === currentIndex}" @click="clickMenuItem(index)">
             <span class="text">
-              <img :src="good.icon" v-if="good.icon">
-              {{ good.name }}
+              <!-- <img :src="good.icon" v-if="good.icon"> -->
+              {{ good.goodsName }}
             </span>
           </li>
         </ul>
@@ -15,10 +15,10 @@
       <div class="foods-wrapper">
         <ul ref="foodsUl">
           <li class="food-list-hook"  v-for="(good, index) in goods" :key="index">
-            <h1 class="title">{{ good.name }}</h1>
+            <h1 class="title">{{ good.goodsName }}</h1>
             <ul>
-              <li class="food-item" v-for="(food, index) in good.foods"
-               :key="index" @click="showFood(food)">
+              <li class="food-item" v-for="(food, index) in good.foodEntityList === null ? good.setMealEntityList : good.foodEntityList"
+               :key="index" @click="show = true">
                 <div class="icon">
                   <img :src="food.image">
                 </div>
@@ -26,8 +26,8 @@
                   <h2 class="name">{{ food.name }}</h2>
                   <p class="desc">{{ food.description }}</p>
                   <div class="extra">
-                    <span class="count">月售{{ food.monthSales }}份</span>
-                    <span>好评率{{ food.rating }}%</span>
+                    <span class="count">月售 {{ food.monthSales === null ? 0 : food.monthSales}}份</span>
+                    <!-- <span>好评率{{ food.rating }}%</span> -->
                   </div>
                   <div class="price">
                     <span class="now">￥{{ food.price }}</span>
@@ -37,6 +37,9 @@
                     <CartControl :food="food" />
                   </div>
                 </div>
+                <van-dialog v-model="show" title="标题" :show-cancel-button="false" :overlay="false" @click="show = false">
+                  <img :src="food.image">
+                </van-dialog>
               </li>
             </ul>
           </li>
@@ -54,18 +57,21 @@ import ShopCart from '../../../components/ShopCart/ShopCart'
 import {mapState} from 'vuex'
 import BScroll from 'better-scroll'
 import food from '../../../components/food/food'
-import {get} from '../../../api/index'
+import {get, reqShopGoods} from '../../../api/index'
 export default {
   data () {
     return {
       scrollY: 0,
       tops: [],
       screenHeight: window.screen.height,
+      goods: [], // 商品列表
       food: {}, // 需要显示的food
+      disPlay: [],
+      show: false,
     }
   },
   computed: {
-    ...mapState(['goods']),
+    // ...mapState(['goods']),
     // 计算当前分类的下标
     currentIndex () {
       // 得到条件数据
@@ -78,7 +84,7 @@ export default {
       })
       // 返回结果
       return index
-    }
+    },
   },
   mounted () {
     if (this.screenHeight > 800 && this.screenHeight <= 1000) {
@@ -91,9 +97,15 @@ export default {
     window.onresize = () => {
       this.screenHeight = (window.screen.height / 80) + 'rem'
     }
-    this.$store.dispatch('getShopGoods',this.$route.params.id)
-    this.$store.dispatch('getFoodTypes',this.$route.params.id)
 
+    reqShopGoods(this.$route.params.id).then(v => {
+      this.goods = v.data
+      // const temp = this.goods.map(item => {
+      //   const setMeal = Array.isArray(item.setMealEntityList) && item.setMealEntityList.find(setMeal => setMeal !== null );
+      //   const food = Array.isArray(item.foodEntityList) && item.foodEntityList.find(food => food !== null);
+      //   return setMeal || food;
+      // }).filter(Boolean) || []
+    })
 
     this.$nextTick(() => {
         this._initScroll()
@@ -139,9 +151,13 @@ export default {
       this.foodsScroll.scrollTo(0, -scrolly, 300)
     },
     showFood (food) {
+      console.log(food)
       this.food = food
       // 显示food组件（在父组件中调用子组件对象方法）
       this.$refs.food.toggleShow()
+    },
+    getGoodsList(id){
+
     }
   },
   components: {

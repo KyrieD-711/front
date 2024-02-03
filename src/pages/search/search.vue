@@ -1,52 +1,231 @@
 <template>
-  <div class="search">
-    <topHeader title="搜索"></topHeader>
-    <div class="searchContent">
+  
+  <div class="msite_shop_list">
+  <!-- <div class="search"> -->
+    <!-- <topHeader title="搜索"></topHeader> -->
+    <!-- <div class="searchContent">
       <div class="search_label">
         <input type="text" placeholder="请输入商家或美食名称" name="searchRes" class="inputText"> <button class="searchBtn"><i class="iconfont iconsousuo searchicon"></i></button>
       </div>
+    </div> -->
+    <van-search
+      v-model="value"
+      show-action
+      label="XX大学"
+      placeholder="请输入商家或美食名称"
+      @search="onSearch"
+    >
+      <template #action>
+        <div @click="onSearch">搜索</div>
+      </template>
+    </van-search>
+    
+    <div class="shop_header">
+      <i class="iconfont iconxuanxiang" style="color: #999"></i>
+      <span >食堂商家</span>
+    </div>
+    
+    <div class="shop_container">
+      <ul class="shop_list" v-if="shopList.length">
+        <li class="shop_li border-1px" v-for="(shop, index) in shopList" :key="index" @click="$router.push({
+        name:'shopGoods',
+        params:{
+          id:shop.id
+        }
+        })">
+          <a>
+            <div class="shop_left">
+             <img class="shop_img" :src="shop.avatar">
+            </div>
+            <div class="shop_right">
+              <section class="shop_detail_header">
+                <h4 class="shop_title ellipsis">{{ shop.name }}</h4>
+                <ul class="shop_detail_ul">
+                  <li class="supports" v-for="(support, index) in shop.supports" :key="index">{{ support.icon_name }}</li>
+                </ul>
+              </section>
+              <section class="shop_rating_order">
+                <section class="shop_rating_order_left">
+                  <star :size="24" :score="shop.rating"></star>
+                  <div class="rating_section">{{ shop.rating }}</div>
+                  <div class="order_section">月售{{ shop.monthSales }}单</div>
+                </section>
+                <section class="shop_rating_order_right">
+                  <span class="delivery_style delivery_right">商家自送</span>
+                </section>
+              </section>
+              <section class="shop_distance">
+                <p class="shop_delivery_msg">
+                  <span>¥{{ shop.deliveryAmount }}起送</span>
+                  <span class="segmentation">/</span>
+                  <span>{{ shop.description }}</span>
+                </p>
+              </section>
+            </div>
+          </a>
+        </li>
+      </ul>
+      <ul v-else>
+        <van-empty  description="亲爱的同学，这里什么也没有哦" />
+      </ul>
     </div>
   </div>
 </template>
 
 <script>
-import topHeader from '../../components/topHeader/topHeader'
+import { reqUserSearchList } from '../../api'
+// import topHeader from '../../components/topHeader/topHeader'
+import star from '../../components/stars/star'
 export default {
   name: 'search',
+  data() {
+    return {
+      value: '',
+      shopList: [
+
+      ],
+    }
+  },
   components: {
-    topHeader
+    // topHeader
+    star
+  },
+  methods: {
+    onSearch() {
+      console.log(this.value)
+      const t = encodeURIComponent(this.value)
+      // console.log('t',encodeURIComponent(this.value))
+      reqUserSearchList(t).then(v => {
+        this.shopList = v.data.map(item => ({
+          name: item.merchantName,
+          id: item.merchantId,
+          avatar: item.avatar,
+          monthSales: item.monthSales,
+          rating: item.rating,
+          deliveryAmount: item.deliveryAmount,
+          description: item.description,
+        }))
+      })
+    }
   }
 }
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus" scope>
-  .search
-    width 100%
-    height 100%
-    .searchContent
-      padding 0.2rem 0
-      background-color #f5f5f5
-      margin-top 0.1rem
-      .search_label
-        display flex
-        flex-wrap nowrap
-        justify-content center
-        .inputText
-          width 80%
-          border-radius 5px
-          border 1px solid gray
-          outline none
-          height 0.6rem
-          font-size 0.25rem
-          padding-left 5px
-        input::-webkit-input-placeholder
-          font-size: 0.25rem;
-        .searchBtn
-          width 10%
-          margin-left 5px
-          border-radius 5px
-          border none
-          outline none
-          .searchicon
-            font-size 0.3rem
-</style>
+  @import '../../common/stylus/mixins.styl'
+  .msite_shop_list
+    top-border-1px(#e4e4e4)
+    margin-top 0.2rem
+    background #fff
+    .shop_header
+      padding 0.2rem 0.2rem 0
+      font-size 0.3rem
+      .shop_icon
+        margin-left 0.1rem
+        color #999
+      .shop_header_title
+        color #999
+        font-size 0.3rem
+    .shop_container
+      margin-bottom 1rem
+      .shop_list
+        .shop_li
+          bottom-border-1px(#f1f1f1)
+          width 100%
+          >a
+            clearFix()
+            display block
+            box-sizing border-box
+            padding 0.2rem 0.15rem
+            width 100%
+            .shop_left
+              float left
+              box-sizing border-box
+              width 30%
+              height 1.7rem
+              padding-right 0.2rem
+              .shop_img
+                display block
+                width 100%
+                height 100%
+            .shop_right
+              float right
+              width 70%
+              .shop_detail_header
+                clearFix()
+                width 100%
+                .shop_title
+                  float left
+                  width 4rem
+                  color #333
+                  font-size 0.3rem
+                  line-height 0.35rem
+                  font-weight 700
+                  &::before
+                    content '品牌'
+                    display inline-block
+                    font-size 0.2rem
+                    line-height 0.2rem
+                    color #333
+                    background-color #ffd930
+                    padding 0.01rem 0.01rem
+                    border-radius 2px
+                    margin-right 0.1rem
+                .shop_detail_ul
+                  float right
+                  margin-top 0.05rem
+                  .supports
+                    float left
+                    font-size 0.3rem
+                    color #999
+                    border 1px solid #f1f1f1
+                    padding 0 0.01rem
+                    border-radius 2px
+              .shop_rating_order
+                clearFix()
+                width 100%
+                margin-top 0.2rem
+                margin-bottom 0.2rem
+                .shop_rating_order_left
+                  float left
+                  color #ff9a0d
+                  .rating_section
+                    float left
+                    font-size 0.2rem
+                    color #ff6000
+                    margin-left 0.05rem
+                  .order_section
+                    float left
+                    font-size 0.2rem
+                    color #666
+                    transform scale(.8)
+                .shop_rating_order_right
+                  float right
+                  font-size 0
+                  .delivery_style
+                    transform-origin 0.7rem 0
+                    transform scale(.7)
+                    display inline-block
+                    font-size 0.25rem
+                    padding 0.02rem
+                    border-radius 2px
+                  .delivery_left
+                    color #fff
+                    margin-right -0.2rem
+                    background-color #02a774
+                    border 1px solid #02a774
+                  .delivery_right
+                    color #02a774
+                    border 1px solid #02a774
+              .shop_distance
+                clearFix()
+                width 100%
+                font-size 0.25rem
+                .shop_delivery_msg
+                  float left
+                  transform-origin 0
+                  transform scale(.9)
+                  color #666
+                .segmentation
+                  color #ccc
+</style>  

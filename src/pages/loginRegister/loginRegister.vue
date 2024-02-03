@@ -5,48 +5,63 @@
       <span slot="right"></span>
     </topHeader>
     <div class="loginContent">
-      <h3 class="login_title">偶耶外卖</h3>
+      <h3 class="login_title">校园外卖</h3>
       <div class="login_types">
-        <span class="login_msg" :class="{on:loginWay}" @click="loginWay=true">短信登录</span>
-        <span class="login_pwd" :class="{on:!loginWay}" @click="loginWay=false">密码登录</span>
+        <span class="login_msg" :class="{on:loginWay}" @click="loginWay = true">短信登录</span>
+        <span class="login_pwd" :class="{on:!loginWay}" @click="loginWay = false">密码登录</span>
       </div>
       <div class="login_content">
         <form :class="{on_form:loginWay}" @submit.prevent="login">
           <section class="phone_num">
-            <input type="tel" placeholder="手机号" class="num_input" maxlength="11" v-model="phone">
+            <!-- <input type="tel" placeholder="手机号" class="num_input" maxlength="11" v-model="phone">
             <button class="send_verification" :disabled="!rightPhone" :class="{right_phone:rightPhone,computed_time:computedFlag}" @click.prevent="getCode">
               {{computeTime ? `已发送${computeTime}s`:'发送验证码'}}
-            </button>
+            </button> -->
+            <van-field v-model="phone" label="手机号" placeholder="请输入手机号" />
           </section>
           <section class="verification_num">
-            <input type="tel" placeholder="验证码" class="receive_verification" maxlength="6" v-model="code">
+            <!-- <input type="tel" placeholder="验证码" class="receive_verification" maxlength="6" v-model="code"> -->
+            <van-field
+              v-model="code"
+              center
+              clearable
+              label="短信验证码"
+              placeholder="请输入短信验证码"
+            >
+              <template #button>
+                <van-button size="small" type="primary" @click="getVerificationCode">发送验证码</van-button>
+              </template>
+            </van-field>
             <div class="some_info">温馨提示：未注册过帐号的手机号，登录时将自动注册，且代表已同意<span>《用户服务协议》</span></div>
           </section>
           <section class="login_submit">
-            <button class="login_btn">登录</button>
+            <button class="login_btn" @click="loginByPhone">登录</button>
             <a href="javascript: void(0)" class="about_me">关于我们</a>
+            <a href="javascript: void(0)" class="about_me" @click="goRegister()" style="color: blue; cursor: pointer;">注册</a>
           </section>
         </form>
         <form :class="{on_form:!loginWay}" @submit.prevent="login">
           <section class="phone_num">
-            <input type="tel" placeholder="手机/邮箱/用户名" class="num_input" maxlength="20" v-model="username">
+            <input type="tel" placeholder="用户名" class="num_input" maxlength="20" v-model="username">
           </section>
           <section class="pwd_num">
             <input type="password" placeholder="密码" class="receive_verification" maxlength="25" v-model="password" v-if="showPwd === false">
             <input type="text" placeholder="密码" class="receive_verification" maxlength="25" v-model="password" v-else>
             <div class="switch_button" @click="ifShowpwd" :class="{on_btn:showPwd,off_btn:!showPwd}">
               <div class="switch_circle"></div>
-              <span class="switch_text">可见</span>
+              <span class="switch_text">显示密码</span>
             </div>
           </section>
           <section class="verification_num">
-            <!-- <input type="tel" placeholder="验证码" class="receive_verification" maxlength="4" v-model="captcha_code"> -->
-            <!-- <img :src="captchas.code" class="verification_img" @click="getCaptchas"> -->
-            <!-- <div class="some_info">温馨提示：未注册过帐号的手机号/邮箱/用户名，登录时将自动注册，且代表已同意<span>《用户服务协议》</span></div> -->
+            <!-- <input type="tel" placeholder="验证码" class="receive_verification" maxlength="4" v-model="captcha_code"> 
+            <img :src="captchas.code" class="verification_img" @click="getCaptchas"> -->
+           <div class="some_info">温馨提示：用户名登录，默认已同意<span>《用户服务协议》</span>
+           </div>
           </section>
           <section class="login_submit">
             <button class="login_btn">登录</button>
             <a href="javascript: void(0)" class="about_me">关于我们</a>
+            <a href="javascript: void(0)" class="about_me" @click="goRegister()" style="color: blue; cursor: pointer;">注册</a>
           </section>
         </form>
       </div>
@@ -58,7 +73,7 @@
 import topHeader from '../../components/topHeader/topHeader'
 import { MessageBox } from 'mint-ui'
 import { mapActions, mapState } from 'vuex'
-import {reqPwdLogin, reqUserInfoAuto} from '../../api'
+import {reqCaptchas, reqLoginByPhone, reqPwdLogin, reqUserInfoAuto} from '../../api'
 import {setStorage} from "../../utils/storage";
 
 export default {
@@ -77,6 +92,9 @@ export default {
       captcha_code: '' // 图形验证码
     }
   },
+  mutations: {
+    
+  },
   computed: {
     rightPhone () {
       return /^1[345789]\d{9}$/.test(this.phone)
@@ -87,8 +105,33 @@ export default {
     this.getCaptchas()
   },
   methods: {
+    goRegister () {
+      this.$router.push('/register');
+    },
+    loginByPhone(){
+      console.log('phone',this.phone,'code',this.code)
+      reqLoginByPhone(this.phone, this.code).then(res => {
+        console.log(res.data)
+        if (res.code === 200) {
+          // 登录成功
+          // 保存用户信息
+          console.log('fwefjnweifghie')
+          setStorage('token','Bearer_' + res.data)
+          this.$store.dispatch('getUserInfoAuto')
+          MessageBox('欢迎', '登录成功').then(action => {
+            this.$router.replace('/home')
+          })
+        }
+      })
+    },
     // 异步请求图片验证码
-    ...mapActions(['getCaptchas']),
+    // ...mapActions(['getCaptchas']),
+    getVerificationCode(){
+      reqCaptchas().then(res => {
+        console.log(res.data)
+        this.code = res.data
+      })
+    },
     // 异步获取短信验证码及等待时间
     // getCode () {
     //   if (!this.computeTime) {
@@ -112,7 +155,7 @@ export default {
       }
     },
     // 异步登录
-    async login () {
+    async login ({commit}) {
       // 前台表单验证
       if (this.loginWay) {
         // 短信登录
@@ -125,13 +168,11 @@ export default {
         //   MessageBox('提示', '验证码输入不正确')
         // }
       } else {
-        // eslint-disable-next-line
         const {username, password, captcha_code} = this
         if (!username) {
           MessageBox('提示', '帐号输入不正确')
         } else if (!password) {
           MessageBox('提示', '密码输入不正确')
-          // eslint-disable-next-line
         }
         // else if (!captcha_code) {
         //   MessageBox('提示', '验证码输入不正确')
@@ -139,13 +180,15 @@ export default {
         const result = await reqPwdLogin({username, password})
         if (result.code === 400) {
           MessageBox('提示', result.errorMsg).then(action => {
-            this.getCaptchas()
+            // this.getCaptchas()
+            
           })
-        } else {
-          setStorage('token','Bearer_'+result.data.token)
+        } else if (result.code === 200){
+          setStorage('token','Bearer_' + result.data.token)
           this.$store.dispatch('getUserInfoAuto')
-          MessageBox('欢迎', '登陆成功').then(action => {
-            this.$router.replace('/personal')
+          // commit('setUser',result.data)
+          MessageBox('欢迎', '登录成功').then(action => {
+            this.$router.replace('/home')
           })
         }
       }
@@ -158,7 +201,8 @@ export default {
   watch: {
     loginWay (value) {
       if (this.loginWay === true) {
-        MessageBox('提示', '暂未开通手机验证码登录！')
+        // MessageBox('提示', '暂未开通手机验证码登录！')
+        // MessageBox('提示',)
       }
     }
   }

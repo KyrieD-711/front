@@ -1,5 +1,15 @@
 <template>
-  <div class="msite_shop_list">
+  <div class="msite_shop_list" >
+    <!-- <mt-nav-left>
+        <router-link to="/home">
+          <mt-button icon="back"></mt-button>
+        </router-link>
+    </mt-nav-left> -->
+    <mt-header title="商家列表">
+      <router-link to="/home" slot="left">
+        <mt-button icon="back">返回</mt-button>
+      </router-link>
+    </mt-header>
     <div class="shop_header">
       <i class="iconfont iconxuanxiang" style="color: #999"></i>
       <span class="shop_header_title">食堂商家</span>
@@ -52,24 +62,28 @@
 </template>
 
 <script>
-import {mapState} from 'vuex'
-import star from '../stars/star'
-import {reqShopList} from '../../api'
+import star from '../../components/stars/star'
+import {reqShopListByFoodType} from '../../api'
 export default {
-  name: 'shopList',
+  name: 'shopListByFoodType',
   data () {
     return {
       shopList: [{name: 'test'}]
     }
   },
   computed: {
-    // ...mapState(['shopList'])
+
   },
   mounted () {
-    reqShopList().then(v => {
-      // console.log(v.data)
+    // console.log("foodfasdf "+this.$route.query.id)
+    reqShopListByFoodType(this.$route.query.id).then(v => {
+      console.log("id:"+this.$route.query.id)
+      console.log("data:"+v.data)
       this.shopList = v.data
     })
+  },
+  methods: {
+    
   },
   components: {
     star

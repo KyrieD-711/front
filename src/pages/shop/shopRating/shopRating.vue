@@ -1,32 +1,6 @@
 <template>
   <div class="ratings" ref="ratings">
     <div class="ratings-content">
-      <div class="overview">
-        <div class="overview-left">
-          <h1 class="score">{{ info.score }}</h1>
-          <div class="title">综合评分</div>
-          <div class="rank">高于周边商家99%</div>
-        </div>
-        <div class="overview-right">
-          <div class="score-wrapper">
-            <span class="title">服务态度</span>
-            <star :score="info.serviceScore" :size="36" />
-            <span class="score">{{ info.serviceScore }}</span>
-          </div>
-          <div class="score-wrapper">
-            <span class="title">商品评分</span>
-            <star :score="info.foodScore" :size="36" />
-            <span class="score">{{ info.foodScore }}</span>
-          </div>
-          <div class="delivery-wrapper">
-            <span class="title">送达时间</span>
-            <span class="delivery">{{ info.deliveryTime }}分钟</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="split"></div>
-
       <div class="ratingselect">
         <div class="rating-type border-1px">
           <span class="block positive" @click="setSelectType(2)" :class="{active: (selectType === 2)}">

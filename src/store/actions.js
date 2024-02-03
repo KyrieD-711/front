@@ -28,7 +28,8 @@ import {
   reqLoginOut,
   reqShopRatings,
   reqShopGoods,
-  reqShopInfo
+  reqShopInfo,
+  reqAddressList
 } from '../api'
 import {clearStorage, setStorage} from "../utils/storage";
 import router from "../router";
@@ -99,12 +100,25 @@ export default {
   },
   // 异步获取商家商品列表
   async getShopGoods ({commit}, id) {
+    console.log(id)
     const result = await reqShopGoods(id)
     if (result.code === 200) {
+      console.log(result)
       const goods = result.data
+      console.log(goods)
       commit(RECEIVE_GOODS, {goods})
       // 数据更新了, 通知一下组件
       // callback && callback()
+    }
+  },
+  async getAddressList ({commit}) {
+    const result = await reqAddressList()
+    console.log(result)
+    
+    if (result.code === 200) {
+      const addressList = result.data
+      console.log(addressList)
+      commit({addressList})
     }
   },
   // 同步更新food里的商品个数

@@ -5,7 +5,10 @@
         <i class="iconfont iconsousuo"></i>
       </span>
       <span class="header_login" slot="right">
-        <router-link to="/personal" v-if="userInfo.id"><i class="iconfont icongeren2" style="color: #3a8fe6; font-size:0.4rem"></i></router-link>
+        <router-link to="/personal" v-if="userInfo.id">
+          <!-- <img :src="userInfo.avatar" > -->
+          <i class="iconfont icongeren2" style="color: #3a8fe6; font-size:0.4rem"></i>
+        </router-link>
         <router-link to="/loginRegister" v-else>登录/注册</router-link>
       </span>
     </topHeader>

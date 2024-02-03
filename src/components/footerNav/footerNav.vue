@@ -1,17 +1,22 @@
 <template>
   <div class="footer" v-show="this.$route.path === '/home'||this.$route.path === '/search'||this.$route.path === '/order'||this.$route.path === '/personal'">
-    <ul class="myfooternav">
-      <li class="footnav" :class="{onfootnav: '/home' === $route.path}" @click="goTo('/home')"><i class="iconfont iconhome-full footicon"></i><span>外卖</span></li>
-      <li class="footnav" :class="{onfootnav: '/search' === $route.path}" @click="goTo('/search')"><i class="iconfont iconsousuo footicon"></i><span>搜索</span></li>
-      <li class="footnav" :class="{onfootnav: '/order' === $route.path}" @click="goTo('/order')"><i class="iconfont icondingdan2 footicon"></i><span>订单</span></li>
-      <li class="footnav" :class="{onfootnav: '/personal' === $route.path}" @click="goTo('/personal')"><i class="iconfont icongeren2 footicon"></i><span>个人</span></li>
-    </ul>
+    <van-tabbar v-model="active" route>
+      <van-tabbar-item name="home" icon="home-o" :class="{onfootnav: '/home' === $route.path}" replace to="/home">首页</van-tabbar-item>
+      <van-tabbar-item name="search" icon="search" dot :class="{onfootnav: '/search' === $route.path}" replace to="/search">搜索</van-tabbar-item>
+      <van-tabbar-item name="order" icon="cart-o" badge="5" :class="{onfootnav: '/order' === $route.path}" replace to="/order">订单</van-tabbar-item>
+      <van-tabbar-item name="personal" icon="setting-o" badge="20" :class="{onfootnav: '/personal' === $route.path}" replace to="/personal">个人</van-tabbar-item>
+    </van-tabbar>
   </div>
 </template>
 
-<script>
+<script> 
 export default {
   name: 'footerNav',
+  data () {
+    return {
+      active: 'home'
+    }
+  },
   methods: {
     goTo (path) {
       this.$router.replace(path)
