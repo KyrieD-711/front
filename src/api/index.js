@@ -47,7 +47,8 @@ export const reqShopInfo = (id) => ajax(`/user/merchant/details/${id}`)
 export const reqShopRatings = () => ajax('/ratings')
 // 获取商家商品数组
 export const reqShopGoods = (id) => ajax(BASE_URL + `/user/merchant/goods/${id}`)
-
+// 商家信息
+export const reqMerchantInto = (id) => ajax(BASE_URL + `/user/merchant/into/${id}`)
 // 获取当前登录用户的地址列表
 export const reqAddressList = () => ajax(BASE_URL + `/user/address/list`)
 // 修改当前用户的地址信息

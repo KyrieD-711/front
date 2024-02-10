@@ -4,22 +4,22 @@
       <div class="ratingselect">
         <div class="rating-type border-1px">
           <span class="block positive" @click="setSelectType(2)" :class="{active: (selectType === 2)}">
-            全部<span class="count">{{ ratings.length }}</span>
+            全部<span class="count">{{ reviewList.length }}</span>
           </span>
           <span class="block positive" @click="setSelectType(0)" :class="{active: (selectType === 0)}">
-            满意<span class="count">{{ positiveSize }}</span>
+            满意<span class="count">{{ yesList.length }}</span>
           </span>
           <span class="block negative" @click="setSelectType(1)" :class="{active: (selectType === 1)}">
-            不满意<span class="count">{{ ratings.length - positiveSize }}</span>
+            不满意<span class="count">{{ noList.length }}</span>
           </span>
         </div>
-        <div class="switch" :class="{on: onlyShowText}" @click="toggleOnlyShowText">
+        <!-- <div class="switch" :class="{on: onlyShowText}" @click="toggleOnlyShowText">
           <span class="iconfont iconqueding"></span>
           <span class="text">只看有内容的评价</span>
-        </div>
+        </div> -->
       </div>
 
-      <div class="rating-wrapper">
+      <!-- <div class="rating-wrapper">
         <ul>
           <li class="rating-item" v-for="(rating, index) in filterRatings" :key="index">
             <div class="avatar">
@@ -40,6 +40,25 @@
             </div>
           </li>
         </ul>
+      </div> -->
+      <div v-if="loading">
+        <van-skeleton :row="3" :loading="loading" avatar 
+        v-for="(review, index) in reviewList" :key="index"/>
+      </div>
+      <div v-else>
+        <van-cell-group>
+          <!-- 评论列表 -->
+          <van-list v-model="reviewList" :finished="finished">
+            <van-cell v-for="(item, index) in this.selectType === 2 ? reviewList : (this.selectType === 0 ? yesList : noList)" :key="index"
+                :title="item.username"
+                :label="item.content"
+                :icon="item.userAvatar"
+                @click="details(item.reviewId)"
+            >
+            {{ item.createTime }}
+            </van-cell>
+          </van-list>
+        </van-cell-group>
       </div>
     </div>
   </div>
@@ -53,7 +72,29 @@ export default {
   data () {
     return {
       onlyShowText: true, // 是否只显示有评价的
-      selectType: 2 // 选择的评价类型（0满意，1不满意，2全部
+      selectType: 2 ,// 选择的评价类型（0满意，1不满意，2全部
+      reviewList:[
+        {
+          reviewId: 1,
+          username: 'mascot',
+          userAvatar: '../../assets/imgs/rice.png',
+          content: '这个麻辣香锅真的很好吃',
+          createTime: '2024-07-12 12:23:34',
+          rating: 3.8,
+        },
+        {
+          reviewId: 2,
+          username: 'ky',
+          userAvatar: '../../assets/imgs/rice.png',
+          content: '第一次点就踩雷，集美们不要点，千万不要点',
+          createTime: '2024-02-11 09:23:34',
+          rating: 2.1,
+        }
+      ],
+      noList:[],
+      yesList:[],
+      loading: false,
+      finished: true
     }
   },
   mounted () {
@@ -70,29 +111,68 @@ export default {
     star
   },
   computed: {
-    ...mapState(['info', 'ratings']),
-    ...mapGetters(['positiveSize']),
-    filterRatings () {
-      const {ratings, onlyShowText, selectType} = this
-      // 产生过滤后的评论数组
-      return ratings.filter(rating => {
-        const {rateType, text} = rating
-        return (selectType === 2 || selectType === rateType) && (!onlyShowText || text.length > 0)
-      })
-    }
+    // ...mapState(['info', 'ratings']),
+    // ...mapGetters(['positiveSize']),
+    // filterRatings () {
+    //   const {ratings, onlyShowText, selectType} = this
+    //   // 产生过滤后的评论数组
+    //   return ratings.filter(rating => {
+    //     const {rateType, text} = rating
+    //     return (selectType === 2 || selectType === rateType) && (!onlyShowText || text.length > 0)
+    //   })
+    // }
   },
   methods: {
     setSelectType (selectType) {
+      console.log("dsfqwefwrwefger")
+      if (selectType === 0) {
+        this.yesList = this.reviewList.filter(review => review.rating >= 3);
+      }else if (selectType === 1) {
+        this.noList = this.reviewList.filter(review => review.rating < 3);
+      }
       this.selectType = selectType
     },
-    toggleOnlyShowText () {
-      this.onlyShowText = !this.onlyShowText
-    }
+    // toggleOnlyShowText () {
+    //   this.onlyShowText = !this.onlyShowText
+    // }
   }
 }
 </script>
 
 <style lang="stylus" scoped rel="stylesheet/stylus">
+.comment-item {
+  display: flex;
+  padding: 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #ddd;
+  margin-right: 10px;
+}
+
+.comment-content {
+  flex: 1;
+}
+
+.user-name {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;  /* 圆形头像的样式 */
+}
+
+.comment-text {
+  font-size: 14px;
+}
   @import "../../../common/stylus/mixins.styl"
   .ratings
     position: absolute

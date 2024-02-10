@@ -1,11 +1,15 @@
 <template>
   <div class="shop-header">
-    <nav class="shop-nav" :style="{backgroundImage: `url(${mD.bgImg})`}">
-      <!-- <a class="back" @click="$router.replace('/home')"> -->
+    <!-- <nav class="shop-nav" :style="{backgroundImage: `url(${mD.bgImg})`}">
+      <a class="back" @click="$router.replace('/home')">
       <a class="back" @click="$router.go(-1)">
         <i class="iconfont iconjiantou-zuo"></i>
       </a>
-    </nav>
+    </nav> -->
+    <van-nav-bar
+      left-arrow
+      @click-left="$router.go(-1)"
+    />
     <div class="shop-content" @click="toggleShopShow">
       <img class="content-image" :src="mD.avatar">
       <div class="header-content">

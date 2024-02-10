@@ -3,24 +3,24 @@
     <div class="ratings-content">
       <div class="overview">
         <div class="overview-left">
-          <h1 class="score">{{ info.score }}</h1>
+          <h1 class="score">{{ merchantInfo.allScore }}</h1>
           <div class="title">综合评分</div>
-          <div class="rank">高于周边商家99%</div>
+          <!-- <div class="rank">高于周边商家99%</div> -->
         </div>
         <div class="overview-right">
           <div class="score-wrapper">
             <span class="title">服务态度</span>
-            <star :score="info.serviceScore" :size="36" />
-            <span class="score">{{ info.serviceScore }}</span>
+            <star :score="merchantInfo.serviceScore" :size="36" />
+            <span class="score">{{ merchantInfo.serviceScore }}</span>
           </div>
           <div class="score-wrapper">
             <span class="title">商品评分</span>
-            <star :score="info.foodScore" :size="36" />
-            <span class="score">{{ info.foodScore }}</span>
+            <star :score="merchantInfo.foodScore" :size="36" />
+            <span class="score">{{ merchantInfo.foodScore }}</span>
           </div>
           <div class="delivery-wrapper">
             <span class="title">送达时间</span>
-            <span class="delivery">{{ info.deliveryTime }}分钟</span>
+            <span class="delivery">{{ merchantInfo.deliveryTime }}分钟</span>
           </div>
         </div>
       </div>
@@ -33,17 +33,29 @@
 import BScroll from 'better-scroll'
 import {mapState, mapGetters} from 'vuex'
 import star from '../../../components/stars/star'
+import { reqMerchantInto } from '../../../api'
 export default {
   data () {
     return {
+      merchantInfo: {
+        allScore: 4.5,
+        foodScore: 3.8,
+        deliveryTime: 30,
+        serviceScore: 4.1
+      }
     }
   },
   components: {
     star
   },
   computed: {
-    ...mapState(['info', 'ratings']),
+    // ...mapState(['info', 'ratings']),
   },
+  mounted () {
+    reqMerchantInto(this.$router.params.id).then(res => {
+      this.merchantInfo = res.data
+    })
+  }
 }
 </script>
 

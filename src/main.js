@@ -11,9 +11,10 @@ import { Popup } from 'mint-ui';
 import { Field } from 'mint-ui';
 import { Header } from 'mint-ui';
 import { NoticeBar ,Image as VanImage} from 'vant'
-import { NumberKeyboard,Form as VanForm,Empty , Search , SwipeCell , Cell, CellGroup , Field as VanField , Popup as vanPopup , CouponCell, CouponList, AddressList , Button as VanButton, Dialog as VanDialog, Tabbar, TabbarItem, Card, Image, Divider, List , NavBar ,ContactList, Tag ,Checkbox ,CheckboxGroup } from 'vant';
+import { Skeleton ,NumberKeyboard,Form as VanForm,Empty , Search , SwipeCell , Cell, CellGroup , Field as VanField , Popup as vanPopup , CouponCell, CouponList, AddressList , Button as VanButton, Dialog as VanDialog, Tabbar, TabbarItem, Card, Image, Divider, List , NavBar ,ContactList, Tag ,Checkbox ,CheckboxGroup } from 'vant';
 // import './mock/mockServer'
 
+Vue.use(Skeleton);
 Vue.use(NumberKeyboard);
 Vue.use(VanForm);
 Vue.use(Empty);

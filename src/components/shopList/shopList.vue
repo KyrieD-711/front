@@ -59,7 +59,32 @@ export default {
   name: 'shopList',
   data () {
     return {
-      shopList: [{name: 'test'}]
+      shopList: [
+        {
+          avatar: 'https://th.bing.com/th?id=OIP.eRpbstYPGQFKdz7xPmALmgHaHa&w=250&h=250&c=8&rs=1&qlt=90&o=6&dpr=1.5&pid=3.1&rm=2https://th.bing.com/th?id=OIP.eRpbstYPGQFKdz7xPmALmgHaHa&w=250&h=250&c=8&rs=1&qlt=90&o=6&dpr=1.5&pid=3.1&rm=2',
+          name: '好面来',
+          rating: 4.5,
+          monthSales: 9999,
+          deliveryAmount: 15,
+          description: '好吃',
+        },
+        {
+          avatar: 'https://th.bing.com/th?id=OIP.CDCQavJOTg19lfYGZK72_gHaHa&w=250&h=250&c=8&rs=1&qlt=90&o=6&dpr=1.5&pid=3.1&rm=2',
+          name: '好饭来',
+          rating: 3.5,
+          monthSales: 3332,
+          deliveryAmount: 10,
+          description: '还行',
+        },
+        {
+          avatar: 'https://tse2-mm.cn.bing.net/th/id/OIP-C.B_6EPR1aypxt6edgABs9MwHaI1?w=165&h=197&c=7&r=0&o=5&dpr=1.5&pid=1.7',
+          name: '奶茶喝喝',
+          rating: 5.0,
+          monthSales: 6666,
+          deliveryAmount: 11,
+          description: '经典回味',
+        }
+      ]
     }
   },
   computed: {

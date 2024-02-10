@@ -3,7 +3,7 @@
     <shopHeader></shopHeader>
     <div class="tab">
       <div class="tab-item">
-        <router-link to="/shop/shopGoods">点餐</router-link>
+        <router-link to="/shop/shopGoods/:id">点餐</router-link>
       </div>
       <div class="tab-item">
         <router-link to="/shop/shopRating">评价</router-link>

@@ -9,13 +9,34 @@
             </div>
             <span>{{ foodType.name }}</span>
           </span>
-
         </div>
       </div>
       <!-- Add Pagination -->
       <div class="swiper-pagination"></div>
     </div>
-    <img v-else src="./imgs/msite_back.svg" alt="msite_back">
+    <div class="swiper-container" v-else>
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">
+          <span class="link_to_food" v-for="(image, index) in images.slice(0,8)" :key="index">
+            <div class="food_container" >
+              <img :src="image" />
+              <!-- <img  :src="require('../../assets/imgs/rice.png')" alt="msite_back">
+              <img  :src="require('../../assets/imgs/hot_pot.png')" alt="msite_back">
+              <img  :src="require('../../assets/imgs/noodle.png')" alt="msite_back">
+              <img  :src="require('../../assets/imgs/shop.png')" alt="msite_back">
+              <img  :src="require('../../assets/imgs/buffet.png')" alt="msite_back">
+              <img  :src="require('../../assets/imgs/basket.png')" alt="msite_back">
+              <img  :src="require('../../assets/imgs/hamburg.png')" alt="msite_back">
+              <img  :src="require('../../assets/imgs/milk_tea.png')" alt="msite_back"> -->
+            </div>
+            <span>
+              {{names[index]}}
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+    
   </nav>
 </template>
 <script>
@@ -36,6 +57,17 @@ export default {
         require('../../assets/imgs/basket.png'),
         require('../../assets/imgs/hamburg.png'),
         require('../../assets/imgs/milk_tea.png'),
+      ],
+      names: [
+        '米饭',
+        '火锅',
+        '面食',
+        '便利店',
+        '面包',
+        '自助',
+        '水果',
+        '汉堡',
+        '奶茶',
       ]
     }
   },

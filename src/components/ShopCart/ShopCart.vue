@@ -47,6 +47,7 @@ import { MessageBox } from 'mint-ui'
 import BScroll from 'better-scroll'
 import { mapState, mapGetters } from 'vuex'
 import CartControl from '../CartControl/CartControl'
+import { reqShopInfo } from '../../api'
 
 export default {
   data () {
@@ -107,6 +108,9 @@ export default {
         this.$store.dispatch('clearCart')
       }, () => {})
     }
+  },
+  mounted () {
+    reqShopInfo()
   },
   components: {
     CartControl
