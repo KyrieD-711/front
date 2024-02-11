@@ -17,7 +17,7 @@
     <div class="swiper-container" v-else>
       <div class="swiper-wrapper">
         <div class="swiper-slide">
-          <span class="link_to_food" v-for="(image, index) in images.slice(0,8)" :key="index">
+          <span @click="enDetail(index + 1)" class="link_to_food" v-for="(image, index) in images.slice(0,8)" :key="index">
             <div class="food_container" >
               <img :src="image" />
               <!-- <img  :src="require('../../assets/imgs/rice.png')" alt="msite_back">

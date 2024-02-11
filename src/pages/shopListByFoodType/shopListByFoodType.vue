@@ -68,7 +68,17 @@ export default {
   name: 'shopListByFoodType',
   data () {
     return {
-      shopList: [{name: 'test'}]
+      shopList: [
+        {
+          id: 1,
+          avatar: 'https://th.bing.com/th?id=OIP.CDCQavJOTg19lfYGZK72_gHaHa&w=250&h=250&c=8&rs=1&qlt=90&o=6&dpr=1.5&pid=3.1&rm=2',
+          name: '好饭来',
+          rating: 3.5,
+          monthSales: 3332,
+          deliveryAmount: 10,
+          description: '还行',
+        },
+      ]
     }
   },
   computed: {

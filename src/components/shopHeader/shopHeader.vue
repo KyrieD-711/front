@@ -66,7 +66,7 @@
             </li>
             <li>
               <h3>{{mD.description}}</h3>
-              <p>约{{info.deliveryTime}}分钟</p>
+              <p>约{{mD.deliveryTime}}分钟</p>
             </li>
             <li>
               <h3>{{ 2 }}元</h3>
@@ -123,7 +123,14 @@ export default {
       supportClasses: ['activity-green', 'activity-red', 'activity-orange'],
       shopShow: false,
       supportShow: false,
-      mD: {}
+      mD: {
+        avatar: 'https://th.bing.com/th?id=OIP.CDCQavJOTg19lfYGZK72_gHaHa&w=250&h=250&c=8&rs=1&qlt=90&o=6&dpr=1.5&pid=3.1&rm=2',
+        name: '好饭来',
+        rating: 3.9,
+        monthSales: 999,
+        description: '美味的很',
+        deliveryTime: 30
+      }
     }
   },
   computed: {
