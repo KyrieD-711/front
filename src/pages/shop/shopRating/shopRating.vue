@@ -3,14 +3,9 @@
     <div class="ratings-content">
       <div class="ratingselect">
         <div class="rating-type border-1px">
-          <span class="block positive" @click="setSelectType(2)" :class="{active: (selectType === 2)}">
-            全部<span class="count">{{ reviewList.length }}</span>
-          </span>
-          <span class="block positive" @click="setSelectType(0)" :class="{active: (selectType === 0)}">
-            满意<span class="count">{{ yesList.length }}</span>
-          </span>
-          <span class="block negative" @click="setSelectType(1)" :class="{active: (selectType === 1)}">
-            不满意<span class="count">{{ noList.length }}</span>
+          <span class="block positive" @click="selectType=i" v-for="(a,i) in attitude"
+                :class="{active: (selectType === i)}">
+            {{a.t}}<span class="count">{{filterD[a.k]}}</span>
           </span>
         </div>
         <!-- <div class="switch" :class="{on: onlyShowText}" @click="toggleOnlyShowText">
@@ -42,22 +37,23 @@
         </ul>
       </div> -->
       <div v-if="loading">
-        <van-skeleton :row="3" :loading="loading" avatar 
-        v-for="(review, index) in reviewList" :key="index"/>
+        <van-skeleton :row="3" :loading="loading" avatar/>
       </div>
       <div v-else>
         <van-cell-group>
           <!-- 评论列表 -->
-          <van-list v-model="reviewList" :finished="finished">
-            <van-cell v-for="(item, index) in this.selectType === 2 ? reviewList : (this.selectType === 0 ? yesList : noList)" :key="index"
-                :title="item.username"
-                :label="item.content"
-                :icon="item.userAvatar"
-                @click="details(item.reviewId)"
-            >
+          <!--          <van-list v-model="reviewList" :finished="finished">-->
+          <van-cell
+            v-for="(item, index) in filterList"
+            :key="index"
+            :title="item.username"
+            :label="item.content"
+            :icon="item.userAvatar"
+            @click="onDetail(item.reviewId)"
+          >
             {{ item.createTime }}
-            </van-cell>
-          </van-list>
+          </van-cell>
+          <!--          </van-list>-->
         </van-cell-group>
       </div>
     </div>
@@ -65,19 +61,24 @@
 </template>
 
 <script>
+import rice from '../../../assets/imgs/rice.png'
 import BScroll from 'better-scroll'
 import {mapState, mapGetters} from 'vuex'
 import star from '../../../components/stars/star'
+const attitude=[
+  {k:'all',t:'全部'},
+  {k:'satisfy',t:'满意'},
+  {k:'dissatisfy',t:'不满意'}]
 export default {
-  data () {
+  data() {
     return {
       onlyShowText: true, // 是否只显示有评价的
-      selectType: 2 ,// 选择的评价类型（0满意，1不满意，2全部
-      reviewList:[
+      selectType: 2,// 选择的评价类型（0满意，1不满意，2全部
+      reviewList: [
         {
           reviewId: 1,
           username: 'mascot',
-          userAvatar: '../../assets/imgs/rice.png',
+          userAvatar: rice,
           content: '这个麻辣香锅真的很好吃',
           createTime: '2024-07-12 12:23:34',
           rating: 3.8,
@@ -85,19 +86,18 @@ export default {
         {
           reviewId: 2,
           username: 'ky',
-          userAvatar: '../../assets/imgs/rice.png',
+          userAvatar: rice,
           content: '第一次点就踩雷，集美们不要点，千万不要点',
           createTime: '2024-02-11 09:23:34',
           rating: 2.1,
         }
       ],
-      noList:[],
-      yesList:[],
       loading: false,
-      finished: true
+      finished: true,
+      attitude
     }
   },
-  mounted () {
+  mounted() {
     this.$store.dispatch('getShopRatings', () => {
       this.$nextTick(() => {
         // eslint-disable-next-line
@@ -111,6 +111,24 @@ export default {
     star
   },
   computed: {
+    filterList() {
+      switch (this.selectType) {
+        case 1:
+          return this.reviewList.filter(it=>it.rating<=3)
+        case 2:
+          return this.reviewList.filter(it=>it.rating>3)
+        default:
+          return this.reviewList;
+      }
+    },
+    filterD(){
+      return this.attitude.reduce((pre,cur)=>{
+        if (cur.k==='all') pre[cur.k]=this.reviewList.length
+        else if (cur.k==='satisfy') pre[cur.k]=this.reviewList.filter(it=>it.rating>3).length
+        else pre[cur.k]=this.reviewList.filter(it=>it.rating<=3).length
+        return pre
+      },{})
+    }
     // ...mapState(['info', 'ratings']),
     // ...mapGetters(['positiveSize']),
     // filterRatings () {
@@ -123,18 +141,12 @@ export default {
     // }
   },
   methods: {
-    setSelectType (selectType) {
-      console.log("dsfqwefwrwefger")
-      if (selectType === 0) {
-        this.yesList = this.reviewList.filter(review => review.rating >= 3);
-      }else if (selectType === 1) {
-        this.noList = this.reviewList.filter(review => review.rating < 3);
-      }
-      this.selectType = selectType
-    },
     // toggleOnlyShowText () {
     //   this.onlyShowText = !this.onlyShowText
     // }
+    onDetail(id){
+      console.log(id)
+    }
   }
 }
 </script>
