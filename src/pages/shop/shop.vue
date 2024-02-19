@@ -3,7 +3,7 @@
     <shopHeader></shopHeader>
     <div class="tab">
       <div class="tab-item">
-        <router-link to="/shop/shopGoods/:id">点餐</router-link>
+        <router-link :to="{name: 'shopGoods', params:{id: this.shop.id} }">点餐</router-link>
       </div>
       <div class="tab-item">
         <router-link to="/shop/shopRating">评价</router-link>
@@ -17,18 +17,31 @@
 </template>
 
 <script>
+import { reqShopInfo } from '../../api'
 import shopHeader from '../../components/shopHeader/shopHeader'
 export default {
   name: 'shop',
   data () {
     return {
+      shop: {
+        id: 1,
+      }
     }
   },
   components: {
     shopHeader
   },
   mounted () {
-    this.$store.dispatch('getShopInfo')
+    // this.$store.dispatch('getShopInfo')
+    console.log('shop id:',this.$route.params.id)
+    reqShopInfo(this.$route.params.id).then(res => {
+      if (res.code === 200) {
+        // console.log('res:', res)
+        this.shop.id = res.data.id
+      }else {
+        this.shop.id = this.$route.params.id
+      }
+    })
   }
 }
 </script>

@@ -33,7 +33,7 @@
 import BScroll from 'better-scroll'
 import {mapState, mapGetters} from 'vuex'
 import star from '../../../components/stars/star'
-import { reqMerchantInto } from '../../../api'
+import { reqMerchantInfo } from '../../../api'
 export default {
   data () {
     return {
@@ -52,7 +52,7 @@ export default {
     // ...mapState(['info', 'ratings']),
   },
   mounted () {
-    reqMerchantInto(this.$router.params.id).then(res => {
+    reqMerchantInfo(this.$route.params.id).then(res => {
       this.merchantInfo = res.data
     })
   }

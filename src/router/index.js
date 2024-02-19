@@ -15,6 +15,8 @@ import userInfo from '@/pages/userInfo/userInfo'
 import record from '@/pages/record/record'
 import myCoupon from '@/pages/coupon/myCoupon'
 import register from '@/pages/register/register'
+import reviewDetail from '@/components/reviewDetail/reviewDetail'
+import pay from '@/pages/pay/pay'
 
 Vue.use(Router)
 
@@ -104,6 +106,16 @@ export default new Router({
     {
       path: '/',
       redirect: '/home'
+    },
+    {
+      path: '/review/:id',
+      name: 'reviewDetail',
+      component: reviewDetail
+    },
+    {
+      path: '/pay',
+      name: 'pay',
+      component: pay
     }
   ]
 })

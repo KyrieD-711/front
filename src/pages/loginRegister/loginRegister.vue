@@ -1,6 +1,6 @@
 <template>
   <div class="loginRegister">
-    <topHeader title="点击返回" @click.native="$router.back()">
+    <topHeader title="点击返回" @click.native="$router.push('/home')">
       <span class="loginBack" slot="left"><i class="iconfont iconjiantou-zuo"></i></span>
       <span slot="right"></span>
     </topHeader>

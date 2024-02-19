@@ -26,7 +26,9 @@
                   <h2 class="name">{{ food.name }}</h2>
                   <p class="desc">{{ food.description }}</p>
                   <div class="extra">
-                    <span class="count">月售 {{ food.monthSales === null ? 0 : food.monthSales}}份</span>
+                    <span class="count">
+                      月售 {{ food.monthSales === null ? 0 : food.monthSales}}份
+                    </span>
                     <!-- <span>好评率{{ food.rating }}%</span> -->
                   </div>
                   <div class="price">
@@ -34,10 +36,12 @@
                     <span class="old" v-if="food.oldPrice">￥{{ food.oldPrice }}</span>
                   </div>
                   <div class="cartcontrol-wrapper">
-                    <CartControl :food="food" />
+                    <CartControl :food="food" :shoppingCart="shoppingCart" 
+                    :merchantId="$route.params.id"/>
                   </div>
                 </div>
-                <van-dialog v-model="show" title="标题" :show-cancel-button="false" :overlay="false" @click="show = false">
+                <van-dialog v-model="show" :show-cancel-button="false" :overlay="false" 
+                @click="show = false">
                   <img :src="food.image">
                 </van-dialog>
               </li>
@@ -94,6 +98,7 @@ export default {
         
       ], // 商品列表
       food: {}, // 需要显示的food
+      shoppingCart: {},
       disPlay: [],
       show: false,
     }
@@ -133,7 +138,13 @@ export default {
       //   const food = Array.isArray(item.foodEntityList) && item.foodEntityList.find(food => food !== null);
       //   return setMeal || food;
       // }).filter(Boolean) || []
-    })
+    }),
+
+    reqUserShoppingCartList(this.$route.params.id).then(res => {
+      if (res.code === 200) {
+        this.shoppingCart = res.data
+      }
+    }),
 
     this.$nextTick(() => {
         this._initScroll()

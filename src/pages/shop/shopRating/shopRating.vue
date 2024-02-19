@@ -3,7 +3,7 @@
     <div class="ratings-content">
       <div class="ratingselect">
         <div class="rating-type border-1px">
-          <span class="block positive" @click="selectType=i" v-for="(a,i) in attitude"
+          <span class="block positive" @click="selectType=i" v-for="(a,i) in attitude" :key="i"
                 :class="{active: (selectType === i)}">
             {{a.t}}<span class="count">{{filterD[a.k]}}</span>
           </span>
@@ -98,14 +98,14 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch('getShopRatings', () => {
-      this.$nextTick(() => {
-        // eslint-disable-next-line
-        new BScroll(this.$refs.ratings, {
-          click: true
-        })
-      })
-    })
+    // this.$store.dispatch('getShopRatings', () => {
+    //   this.$nextTick(() => {
+    //     // eslint-disable-next-line
+    //     new BScroll(this.$refs.ratings, {
+    //       click: true
+    //     })
+    //   })
+    // })
   },
   components: {
     star

@@ -9,14 +9,47 @@
 </template>
 
 <script>
+import { Toast } from 'vant'
+import { addShoppingCart, subShoppingCart } from '../../api'
 export default {
   props: {
-    food: Object
+    food: Object,
+    shoppingCart: Object,
+    merchantId: Number
   },
   methods: {
     changeCount (isAdd) {
-      this.$store.dispatch('changeCount', {isAdd, food: this.food})
-    }
+      // this.$store.dispatch('changeCount', {isAdd, food: this.food})
+      if (isAdd) {
+        console.log('food:',this.food)
+        console.log('shoppingCart',this.shoppingCart)
+        console.log('merchantId',this.merchantId)
+        const req = {
+          merchantId: this.merchantId,
+          shoppingCartId: this.shoppingCart.id,
+          name: this.food.name,
+          foodOrSetmealId: this.food.id,
+        }
+        console.log('req:',req)
+        addShoppingCart(req).then(res => {
+          if (res.code === 200) {
+            Toast.success('添加成功')
+          }
+        })
+      } else {
+        const req = {
+          merchantId: this.merchantId,
+          shoppingCartId: this.shoppingCart.id,
+          foodOrSetmealId: this.food.id,
+        }
+        console.log('req:',req)
+        subShoppingCart(req).then(res => {
+          if (res.code === 200) {
+            Toast.success('减少成功')
+          }
+        })
+      }
+    } 
   }
 }
 </script>

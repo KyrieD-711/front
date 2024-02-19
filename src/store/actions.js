@@ -83,7 +83,7 @@ export default {
   // 异步获取商家信息
   async getShopInfo ({commit}) {
     const result = await reqShopInfo(id)
-    if (result.code === 0) {
+    if (result.code === 200) {
       const info = result.data
       commit(RECEIVE_INFO, {info})
     }

@@ -42,13 +42,13 @@ export const editUserInfo = (userInfoEdit) => {
 // 退出登录
 export const reqLoginOut = () => ajax(BASE_URL + '/user/user/logout')
 // 获取商家信息
-export const reqShopInfo = (id) => ajax(`/user/merchant/details/${id}`)
+export const reqShopInfo = (id) => ajax(BASE_URL + `/user/merchant/details/${id}`)
 // 获取商家评价数组
 export const reqShopRatings = () => ajax('/ratings')
 // 获取商家商品数组
 export const reqShopGoods = (id) => ajax(BASE_URL + `/user/merchant/goods/${id}`)
 // 商家信息
-export const reqMerchantInto = (id) => ajax(BASE_URL + `/user/merchant/into/${id}`)
+export const reqMerchantInfo = (id) => ajax(BASE_URL + `/user/merchant/info/${id}`)
 // 获取当前登录用户的地址列表
 export const reqAddressList = () => ajax(BASE_URL + `/user/address/list`)
 // 修改当前用户的地址信息
@@ -85,5 +85,17 @@ export const reqUserMyCouponList = () => ajax(BASE_URL + `/user/coupon/myCoupon`
 // 根据商家或美食名称搜索
 export const reqUserSearchList = (keyword) => ajax(BASE_URL + `/user/search/list?keyword=${decodeURIComponent(keyword)}`)
 
+// 查看购物车列表
+export const reqUserShoppingCartList = (merchantId) => ajax(BASE_URL + `/user/shoppingCart/list/${merchantId}`)
+// 向购物车中添加商品
+export const addShoppingCart = (ShoppingCartDTO) => ajax(BASE_URL + `/user/shoppingCart/add`, ShoppingCartDTO,'post')
+// 向购物车中减少商品
+export const subShoppingCart = (ShoppingCartDTO) => {
+  return axios.put(BASE_URL + `/user/shoppingCart/sub`,{ShoppingCartDTO})
+}
+// 清空购物车
+export const clearShoppingCart = (ShoppingCartClearDTO) => {
+  return ajax.put(BASE_URL + `/user/shoppingCart/clear`,{ShoppingCartClearDTO})
+}
 export const get = (url, data = {}) => ajax(BASE_URL + url, data)
 export const post = (url, data = {}) => ajax(BASE_URL + url, data, 'post')

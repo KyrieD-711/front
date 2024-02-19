@@ -10,11 +10,11 @@
             <div class="num" v-if="totalCount">{{totalCount}}</div>
           </div>
           <div class="price" :class="{highlight: totalCount}">￥{{totalPrice}}</div>
-          <div class="desc">另需配送费￥{{info.deliveryPrice}}元</div>
+          <div class="desc">商家自送，无需配送费</div>
         </div>
         <div class="content-right">
           <div class="pay" :class="payClass">
-            {{payText}}
+            <span @click="goPay()"> {{payText}} </span>
           </div>
         </div>
       </div>
@@ -47,25 +47,32 @@ import { MessageBox } from 'mint-ui'
 import BScroll from 'better-scroll'
 import { mapState, mapGetters } from 'vuex'
 import CartControl from '../CartControl/CartControl'
-import { reqShopInfo } from '../../api'
+import { clearShoppingCart, reqShopInfo , reqUserShoppingCartList} from '../../api'
+import { Toast } from 'vant'
 
 export default {
   data () {
     return {
-      isShow: false
+      isShow: false,
+      shop: {
+
+      },
+      shoppingCart: {
+
+      }
     }
   },
   computed: {
-    ...mapState(['cartFoods', 'info']),
+    // ...mapState(['cartFoods', 'info']),
     ...mapGetters(['totalCount', 'totalPrice']),
     payClass () {
       const {totalPrice} = this
-      const {minPrice} = this.info
+      const minPrice = this.shop.deliveryAmount
       return totalPrice >= minPrice ? 'enough' : 'not-enough'
     },
     payText () {
       const {totalPrice} = this
-      const {minPrice} = this.info
+      const minPrice = this.shop.deliveryAmount
       if (totalPrice === 0) {
         return `￥${minPrice}元起送`
       } else if (totalPrice < minPrice) {
@@ -105,12 +112,33 @@ export default {
     },
     clearCart () {
       MessageBox.confirm('确定清空购物车吗?').then(action => {
-        this.$store.dispatch('clearCart')
+        // this.$store.dispatch('clearCart')
+        const req = {
+          shoppingCartId: this.shoppingCart.id,
+          merchantId: this.shop.id
+        }
+        clearShoppingCart(req).then(res => {
+          if (res.code === 200) {
+            Toast.success('已清空')
+          }
+        })
       }, () => {})
+    },
+    goPay() {
+      if (this.payText === '结算') {
+        this.$router.push('/pay')
+      }
     }
   },
   mounted () {
-    reqShopInfo()
+    reqShopInfo(this.$route.params.id).then(res => {
+      this.shop = res.data
+    })
+    // reqUserShoppingCartList(this.$route.params.id).then(res => {
+    //   if (res.code === 200) {
+    //     this.shoppingCart = res.data
+    //   }
+    // })
   },
   components: {
     CartControl
